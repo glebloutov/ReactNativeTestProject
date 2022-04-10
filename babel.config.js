@@ -4,7 +4,6 @@ module.exports = {
     '@babel/preset-flow',
   ],
   plugins: [
-    ['react-native-reanimated/plugin'],
     [
       '@babel/plugin-transform-react-jsx',
       {
@@ -27,19 +26,6 @@ module.exports = {
           '.json',
           '.svg',
         ],
-        alias: {
-          '@navigation': './src/navigation',
-          '@components': './src/components',
-          '@screens': './src/screens',
-          '@assets': './assets',
-          '@theme': './src/theme',
-          '@contexts': './src/contexts',
-          '@utils': './src/utils',
-          '@config': './src/config',
-          '@services': './src/services',
-          '@routes': './src/routes',
-          '@hooks': './src/hooks',
-        },
       },
     ],
   ],
