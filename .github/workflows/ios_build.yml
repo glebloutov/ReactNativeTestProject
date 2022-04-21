@@ -37,7 +37,7 @@ jobs:
       - name: Setup Ruby (bundle)
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: 2.7.4
           bundler-cache: true
 
       - name: Restore Pods cache
@@ -57,14 +57,14 @@ jobs:
       - name: Build IOS App
         uses: yukiarrr/ios-build-action@v1.4.0
         with:
-          project-path: ios/MyApp.xcodeproj
+          project-path: ios/ReactNativeTestProject.xcodeproj
           p12-base64: ${{ secrets.IOS_P12_BASE64 }}
           mobileprovision-base64: ${{ secrets.IOS_MOBILE_PROVISION_BASE64 }}
           code-signing-identity: 'iPhone Distribution'
           team-id: ${{ secrets.IOS_TEAM_ID }}
           certificate-password: ${{ secrets.IOS_CERTIFICATE_PASSWORD }}
-          workspace-path: ios/MyApp.xcworkspace
-          scheme: MyApp
+          workspace-path: ios/ReactNativeTestProject.xcworkspace
+          scheme: ReactNativeTestProject
 
       - name: 'Upload app to TestFlight'
         uses: apple-actions/upload-testflight-build@v1
