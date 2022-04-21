@@ -52,7 +52,7 @@ jobs:
             ${{ runner.os }}-pods-
 
       - name: Install Pods
-        run: cd ios && pod install --repo-update && cd ..
+        run: npx pod-install
 
       - name: Build IOS App
         uses: yukiarrr/ios-build-action@v1.4.0
