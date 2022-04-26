@@ -1,4 +1,4 @@
-name: IOS Production Build
+name: Build IOS
 on:
   push:
     branches:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   ios-build:
-    name: IOS Production Build
+    name: IOS Build
     runs-on: macos-latest
     defaults:
       run:
