@@ -25,6 +25,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import codePush from 'react-native-code-push';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -109,4 +110,8 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const codePushOptions = {
+  checkFrequency: codePush.CheckFrequency.ON_APP_START,
+};
+
+export default codePush(codePushOptions)(App);
