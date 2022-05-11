@@ -278,8 +278,6 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-
-    compile project(':react-native-code-push')
 }
 
 if (isNewArchitectureEnabled()) {
