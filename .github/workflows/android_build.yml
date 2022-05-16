@@ -20,6 +20,7 @@ jobs:
     steps: 
       - id: set_var
         run: |
+          pwd
           APP_MARKETING_VERSION=`sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
           echo "::set-output name=test::$APP_MARKETING_VERSION"
       - id: set_var_two
