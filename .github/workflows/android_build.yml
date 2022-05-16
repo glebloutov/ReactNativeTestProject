@@ -17,16 +17,19 @@ jobs:
   build-android:
     #needs: install-and-test
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ios
     steps: 
       - id: set_var
         run: |
-          pwd
-          APP_MARKETING_VERSION=`sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
+          pwd && ls
+          APP_MARKETING_VERSION=`sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ReactNativeTestProject.xcodeproj/project.pbxproj`
           echo "::set-output name=test::$APP_MARKETING_VERSION"
-      - id: set_var_two
-        run: |
-          APP_BUILD_NO=`sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
-          echo "::set-output name=test2::$APP_BUILD_NO"
+      # - id: set_var_two
+      #   run: |
+      #     APP_BUILD_NO=`sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
+      #     echo "::set-output name=test2::$APP_BUILD_NO"
       # - uses: actions/checkout@v2
       # - name: Install npm dependencies
       #   run: |
