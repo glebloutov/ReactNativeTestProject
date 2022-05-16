@@ -15,43 +15,47 @@ jobs:
         run: |
           yarn
   build-android:
-    #needs: install-and-test
+    needs: install-and-test
     runs-on: ubuntu-latest
     steps: 
+      - id: set_var_two
+        run: |
+          APP_BUILD_NO=`sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
+          echo "::set-output name=test2::$APP_BUILD_NO"
+      - uses: actions/checkout@v2
+      - name: Install npm dependencies
+        run: |
+          yarn
+      - name: Build Android Release
+        run: |
+          cd android && ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}'
       - id: set_var
         run: |
           content=`cat ./package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+      - id: set_var
+        run: |
+          content=`cat ./package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
           content2=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
-          cat ios/ReactNativeTestProject.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '
-      # - id: set_var_two
-      #   run: |
-      #     APP_BUILD_NO=`sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
-      #     echo "::set-output name=test2::$APP_BUILD_NO"
-      # - uses: actions/checkout@v2
-      # - name: Install npm dependencies
-      #   run: |
-      #     yarn
-      # - name: Build Android Release
-      #   run: |
-      #     cd android && ./gradlew assembleRelease -PMYAPP_UPLOAD_STORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}' -PMYAPP_UPLOAD_KEY_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}'
-      # - id: set_var
-      #   run: |
-      #     content=`cat ./package.json`
-      #     # the following lines are only required for multi line json
-      #     content="${content//'%'/'%25'}"
-      #     content="${content//$'\n'/'%0A'}"
-      #     content="${content//$'\r'/'%0D'}"
-      #     # end of optional handling for multi line json
-      #     echo "::set-output name=packageJson::$content"
-      # - name: "Release"
-        # uses: "marvinpinto/action-automatic-releases@latest"
-        # with:
-        #   repo_token: "${{ secrets.TOKEN }}"
-        #   automatic_release_tag: "v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
-        #   prerelease: false
-        #   title: "v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
-        #   files: |
-        #     android/app/build/outputs/apk/release/app-release.apk
+      - name: "Release"
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.TOKEN }}"
+          automatic_release_tag: "v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
+          prerelease: false
+          title: "v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
+          files: |
+            android/app/build/outputs/apk/release/app-release.apk
       # - name: Post to a Slack channel
       #   id: slack
       #   uses: slackapi/slack-github-action@v1.19.0
