@@ -33,7 +33,7 @@ jobs:
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
-          content2=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
+          content2=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '`
           echo "::set-output name=packageJson2::$content2"
       - name: "Release"
         uses: "marvinpinto/action-automatic-releases@latest"
