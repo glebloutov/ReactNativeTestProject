@@ -3,19 +3,10 @@ on:
   push:
     branches:
       - master
-      - main
-      - development
       - feature/testSlack
+
 jobs:
-  install-and-test:
-    runs-on: ubuntu-latest
-    steps: 
-      - uses: actions/checkout@v2
-      - name: Install npm dependencies
-        run: |
-          yarn
   build-android:
-    needs: install-and-test
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v2
@@ -34,7 +25,7 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
-      - id: set_var
+      - id: set_var_two
         run: |
           content=`cat ./package.json`
           # the following lines are only required for multi line json
@@ -43,6 +34,7 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           content2=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
+          echo "::set-output name=packageJson2::$content2"
       - name: "Release"
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -58,8 +50,9 @@ jobs:
       #   with:
       #     # Slack channel id, channel name, or user id to post message.
       #     # See also: https://api.slack.com/methods/chat.postMessage#channels
-      #     channel-id: 'C02Q7CXQV37'
-      #     # For posting a simple plain text message
-      #     slack-message: "-Этот чат захвачен ботами\n-Сейчас или вообще?"
+      #     channel-id: 'Channel_Id'
+      #     # Message to post 
+      #     slack-message: "Hi. A new v${{ fromJson(steps.set_var.outputs.packageJson).version }} version of our app has been uploaded!\nYou can find apk here https://github.com/remdev-studio/[YOUR_APP_NAME]/releases/tag/v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
       #   env:
+      #     # Slack developer bot token
       #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
