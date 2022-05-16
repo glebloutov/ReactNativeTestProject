@@ -7,13 +7,13 @@ on:
       - development
       - feature/testSlack
 jobs:
-  # install-and-test:
-  #   runs-on: ubuntu-latest
-  #   steps: 
-  #     - uses: actions/checkout@v2
-  #     - name: Install npm dependencies
-  #       run: |
-  #         yarn
+  install-and-test:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v2
+      - name: Install npm dependencies
+        run: |
+          yarn
   build-android:
     #needs: install-and-test
     runs-on: ubuntu-latest
