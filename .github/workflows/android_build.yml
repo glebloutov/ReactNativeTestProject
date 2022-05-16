@@ -20,6 +20,8 @@ jobs:
     steps: 
       - id: set_var
         run: |
+          content=`cat ./package.json`
+          content2=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
           cat ios/ReactNativeTestProject.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '
       # - id: set_var_two
       #   run: |
