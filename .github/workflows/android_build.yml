@@ -18,6 +18,14 @@ jobs:
     #needs: install-and-test
     runs-on: ubuntu-latest
     steps: 
+      - id: set_var
+        run: |
+          APP_MARKETING_VERSION=`sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
+          echo "::set-output name=test::$APP_MARKETING_VERSION"
+      - id: set_var_two
+        run: |
+          APP_BUILD_NO=`sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
+          echo "::set-output name=test2::$APP_BUILD_NO"
       # - uses: actions/checkout@v2
       # - name: Install npm dependencies
       #   run: |
@@ -43,14 +51,14 @@ jobs:
         #   title: "v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
         #   files: |
         #     android/app/build/outputs/apk/release/app-release.apk
-      - name: Post to a Slack channel
-        id: slack
-        uses: slackapi/slack-github-action@v1.19.0
-        with:
-          # Slack channel id, channel name, or user id to post message.
-          # See also: https://api.slack.com/methods/chat.postMessage#channels
-          channel-id: 'C02Q7CXQV37'
-          # For posting a simple plain text message
-          slack-message: "-Этот чат захвачен ботами\n-Сейчас или вообще?"
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      # - name: Post to a Slack channel
+      #   id: slack
+      #   uses: slackapi/slack-github-action@v1.19.0
+      #   with:
+      #     # Slack channel id, channel name, or user id to post message.
+      #     # See also: https://api.slack.com/methods/chat.postMessage#channels
+      #     channel-id: 'C02Q7CXQV37'
+      #     # For posting a simple plain text message
+      #     slack-message: "-Этот чат захвачен ботами\n-Сейчас или вообще?"
+      #   env:
+      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
