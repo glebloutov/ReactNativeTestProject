@@ -20,7 +20,10 @@ jobs:
     steps: 
       - id: set_var
         run: |
-          pwd && ls
+          pwd
+          ls
+          cd ios
+          ls
       # - id: set_var_two
       #   run: |
       #     APP_BUILD_NO=`sed -n '/CURRENT_PROJECT_VERSION/{s/CURRENT_PROJECT_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
