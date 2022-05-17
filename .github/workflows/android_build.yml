@@ -28,7 +28,7 @@ jobs:
       - id: set_var_two
         run: |
           content2=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '`
-          content3=`sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}' ReactNativeTestProject.xcodeproj/project.pbxproj`
+          content3=`sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}'  ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
           echo "$content2"
           echo "$content3"
           echo "::set-output name=packageJson2::$content2"
