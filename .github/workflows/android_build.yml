@@ -25,14 +25,6 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
-      - id: set_var_two
-        run: |
-          content2=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '`
-          content3=`sed -n '/MARKETING_VERSION/{s/MARKETING_VERSION = //;s/;//;s/^[[:space:]]*//;p;q;}'  ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj`
-          echo "$content2"
-          echo "$content3"
-          echo "::set-output name=packageJson2::$content2"
-          echo "::set-output name=packageJson3::$content3"
       - name: "Release"
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -42,15 +34,15 @@ jobs:
           title: "v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
           files: |
             android/app/build/outputs/apk/release/app-release.apk
-      # - name: Post to a Slack channel
-      #   id: slack
-      #   uses: slackapi/slack-github-action@v1.19.0
-      #   with:
-      #     # Slack channel id, channel name, or user id to post message.
-      #     # See also: https://api.slack.com/methods/chat.postMessage#channels
-      #     channel-id: 'Channel_Id'
-      #     # Message to post 
-      #     slack-message: "Hi. A new v${{ fromJson(steps.set_var.outputs.packageJson).version }} version of our app has been uploaded!\nYou can find apk here https://github.com/remdev-studio/[YOUR_APP_NAME]/releases/tag/v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
-      #   env:
-      #     # Slack developer bot token
-      #     SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+      - name: Post to a Slack channel
+        id: slack
+        uses: slackapi/slack-github-action@v1.19.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          channel-id: 'C02Q7CXQV37'
+          # Message to post 
+          slack-message: "Hi. A new v${{ fromJson(steps.set_var.outputs.packageJson).version }} version of our app has been uploaded!\nYou can find apk here https://github.com/remdev-studio/[YOUR_APP_NAME]/releases/tag/v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
+        env:
+          # Slack developer bot token
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
