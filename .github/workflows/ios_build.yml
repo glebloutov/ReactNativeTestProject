@@ -19,7 +19,7 @@ jobs:
         
       - id: set_var
         run: |
-          content=`cat ./ios/ReactNativeTestProject.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '`
+          content=`cat ./ReactNativeTestProject.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '`
           echo "::set-output name=marketingVersion::$content"
 
       - name: Get yarn cache directory path
