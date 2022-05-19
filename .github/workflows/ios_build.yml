@@ -22,7 +22,7 @@ jobs:
           echo "::set-output name=marketingVersion::$content"
       - id: set_var3
         run: |
-          echo "v${{ steps.set_var.outputs.marketingVersion }}"
+          echo "${{ steps.set_var2.outputs.marketingVersion }}"
       # - name: Get yarn cache directory path
       #   id: yarn-cache-dir-path
       #   run: echo "::set-output name=dir::$(yarn cache dir)"
