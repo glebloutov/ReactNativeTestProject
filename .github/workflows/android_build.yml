@@ -41,7 +41,7 @@ jobs:
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           channel-id: 'C02Q7CXQV37'
           # Message to post 
-          slack-message: "Hi. A new v${{ fromJson(steps.set_var.outputs.packageJson).version }} version of our app has been uploaded!\nYou can find apk here https://github.com/remdev-studio/[YOUR_APP_NAME]/releases/tag/v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
+          slack-message: "Hi. A new v${{ fromJson(steps.set_var.outputs.packageJson).version }} version of our android app has been uploaded!\nYou can find apk here https://github.com/remdev-studio/[YOUR_APP_NAME]/releases/tag/v${{ fromJson(steps.set_var.outputs.packageJson).version }}"
         env:
           # Slack developer bot token
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
